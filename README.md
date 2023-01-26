@@ -19,7 +19,7 @@ cd one-click-one-qemux
 
 chmod 777 qemux_inital.sh
 
-sudo ./qemux_inital.sh
+./qemux_inital.sh
 ```
 
 <h2>
@@ -46,4 +46,11 @@ I am sorry about u might still need to enter your passwd of your ubuntu,
 and sometimes ensure the yes or no with your !!! ENTER !!! key
 
 XD
+
+# ========================= !!! 按错了请看这里 !!! =========================
+
+[y/n]选取 Settings —-> [*] vi-style line editing commands (New)
+
+更改 Settings —-> Destination path for 'make install' 为 /home/nfs "
+
 ```
