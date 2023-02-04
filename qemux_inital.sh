@@ -2,22 +2,36 @@
 
 echo "=========== UBUNTU SOFTWARE SOURCE CHANGING ============>"
 
-source /etc/os-release
-case $VERSION_ID in
-	"20.04")
-		sudo rm /etc/apt/sources.list
-		sudo mv 20_sources.list /etc/apt/
-		sudo mv /etc/apt/20_sources.list /etc/apt/sources.list
-		;;
-	"22.04")
-		sudo rm /etc/apt/sources.list
-                sudo mv 22_sources.list /etc/apt/
-		sudo mv /etc/apt/22_sources.list /etc/apt/sources.list
+read -p "请选择更新到清华源 [y/n]" input
+case $input in
+        [yY]* | "")
+                source /etc/os-release
+                case $VERSION_ID in
+                        "18.04")
+                                sudo rm /etc/apt/sources.list
+                                sudo cp 18_sources.list /etc/apt/
+                                sudo mv /etc/apt/18_sources.list /etc/apt/sources.list
+                                ;;
+                        "20.04")
+                                sudo rm /etc/apt/sources.list
+                                sudo cp 20_sources.list /etc/apt/
+                                sudo mv /etc/apt/20_sources.list /etc/apt/sources.list
+                                ;;
+                        "22.04")
+                                sudo rm /etc/apt/sources.list
+                                sudo cp 22_sources.list /etc/apt/
+                                sudo mv /etc/apt/22_sources.list /etc/apt/sources.list
+                                ;;
+                        *)
+                                echo " 您的linux不是预期版本, 请使用ubuntu 18.04 ~ 22.04"
+                                exit
+                                ;;
+                esac
                 ;;
-	*)
-                echo " 您的linux不是预期版本, 请使用ubuntu 20.04 / 22.04"
-		exit
-		;;
+        [nN]* | *)
+                echo "未选择更新到清华源"
+                sleep 1
+                ;;        
 esac
 
 sudo apt update
@@ -44,8 +58,8 @@ esac
 # QEMU 环境
 sudo apt install flex bison libncurses-dev libelf-dev libssl-dev u-boot-tools bc xz-utils fakeroot pkg-config ninja-build
 
-sudo  apt-cache search pixman
-sudo apt-get install libpixman-1-dev
+sudo apt-cache search pixman
+sudo apt install libpixman-1-dev
 
 read -p  "qemu : 选择默认版本v4.2 或 慢慢编译v7.2 [y/n]" input
 case $input in
