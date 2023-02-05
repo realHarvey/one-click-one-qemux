@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=========== UBUNTU SOFTWARE SOURCE CHANGING ============>"
+echo '=========== UBUNTU SOFTWARE SOURCE CHANGING ============>'
 
 read -p "请选择更新到清华源 [y/n]" input
 case $input in
@@ -29,7 +29,7 @@ case $input in
                 esac
                 ;;
         [nN]* | *)
-                echo "未选择更新到清华源 !"
+                echo '未选择更新到清华源 !'
                 ;;        
 esac
 
@@ -37,7 +37,7 @@ sudo apt update
 sudo apt upgrade
 
 
-echo "=========== COMPILE ENVIRONMENT INITALIZING ============>"
+echo '=========== COMPILE ENVIRONMENT INITALIZING ============>'
 
 # c/c++ 环境
 sudo apt install build-essential
@@ -60,7 +60,7 @@ case $input in
                 sudo apt install python3.11
                 ;;
         [nN]* | *)
-                echo "未选择更新到3.11"
+                echo '未选择更新到3.11'
                 ;;
 esac
 
@@ -86,14 +86,14 @@ case $input in
                 sudo make install
                 ;;
         *)
-                echo "不下载你玩个毛"
+                echo '不下载你玩个毛'
                 cd ~
                 rm -rf one-click-one-qemux
                 exit  
                 ;;      
 esac
 
-echo "=========== COMPILE LINUX KERNEL ============>"
+echo '=========== COMPILE LINUX KERNEL ============>'
 
 cd /home
 sudo mkdir qemux
@@ -122,7 +122,7 @@ cp arch/arm/boot/dts/vexpress-v2p-ca9.dtb /home/qemux/
 cd /home/qemux
 touch start.sh
 chmod 777 start.sh
-echo " " >> start.sh
+echo ' ' >> start.sh
 sed -i '1a qemu-system-arm \\\
         -M vexpress-a9 \\\
         -m 512M \\\
@@ -131,7 +131,7 @@ sed -i '1a qemu-system-arm \\\
         -nographic \\\
         -append "console=ttyAMA0"' start.sh
 
-echo "=========== MAKE ROOT FILE SYSTEM ============>"
+echo '=========== MAKE ROOT FILE SYSTEM ============>'
 
 cd /home/qemux
 mkdir filesys
@@ -143,17 +143,18 @@ sudo mkdir -p /home/nfs
 sudo chmod 777 /home/nfs/
 
 sed -i '190d' Makefile
-sed -i '190a ARCH ?= arm \n CROSS_COMPILE = arm-linux-gnueabi-' Makefile
+sed -i '190a ARCH ?= arm\n CROSS_COMPILE = arm-linux-gnueabi-' Makefile # v0.93
 
-echo " 正在加载菜单... "
-echo " [y/n]选取 Settings —-> [*] vi-style line editing commands (New) "
-echo " 更改 Settings —-> Destination path for 'make install' 为 /home/nfs "
+echo ' 正在加载菜单... '
+echo ' 通过 [y/n]或[y/n/m] 选取 ... '
+echo ' 选取 Settings —68行-> [*] vi-style line editing commands (New) '
+echo ' 更改 Settings —43行-> Destination path for 'make install' 为 /home/nfs '
 
 read -p "记住之后请回车确认" input
 case $input in
         *) ;;
 esac
-echo "按错了不要慌, 请去github中查看README"
+echo '按错了不要慌, 请去github中查看README'
 sleep 3
 
 make menuconfig
@@ -184,67 +185,63 @@ mkdir -p etc/init.d
 cd etc/init.d
 touch rcS
 chmod 777 rcS
-echo " " >> rcS
-sed -i '1a #!/bin/sh \n
-PATH=/bin:/sbin:/usr/bin:/usr/sbin \n
-export LD_LIBRARY_PATH=/lib:/usr/lib \n
-/bin/mount -n -t ramfs ramfs /var \n
-/bin/mount -n -t ramfs ramfs /tmp \n
-/bin/mount -n -t sysfs none /sys \n
-/bin/mount -n -t ramfs none /dev \n
-/bin/mkdir /var/tmp \n
-/bin/mkdir /var/modules \n
-/bin/mkdir /var/run \n
-/bin/mkdir /var/log \n
-/bin/mkdir -p /dev/pts \n
-/bin/mkdir -p /dev/shm \n
-/sbin/mdev -s \n
-/bin/mount -a \n
-echo "-------------------------------------" \n
-echo "==== vexpress board initalizing ====>" \n
-echo "-------------------------------------" ' rcS
+echo '#!/bin/sh' >> rcS
+echo 'PATH=/bin:/sbin:/usr/bin:/usr/sbin' >> rcS
+echo 'export LD_LIBRARY_PATH=/lib:/usr/lib' >> rcS
+echo '/bin/mount -n -t ramfs ramfs /var' >> rcS
+echo '/bin/mount -n -t ramfs ramfs /tmp' >> rcS
+echo '/bin/mount -n -t sysfs none /sys' >> rcS
+echo '/bin/mount -n -t ramfs none /dev' >> rcS
+echo '/bin/mkdir /var/tmp' >> rcS
+echo '/bin/mkdir /var/modules' >> rcS
+echo '/bin/mkdir /var/run' >> rcS
+echo '/bin/mkdir /var/log' >> rcS
+echo '/bin/mkdir -p /dev/pts' >> rcS
+echo '/bin/mkdir -p /dev/shm' >> rcS
+echo '/sbin/mdev -s' >> rcS
+echo '/bin/mount -a' >> rcS
+echo 'echo "                                     "' >> rcS
+echo 'echo "==== vexpress board initalizing ====>"' >> rcS
+echo 'echo "                                     "' >> rcS
 
 # 设置文件系统
 cd /home/nfs/etc
 touch fstab
-echo " " >> fstab
-sed -i '1a proc    /proc           proc    defaults        0       0 \n
-none    /dev/pts        devpts  mode=0622       0       0 \n
-mdev    /dev            ramfs   defaults        0       0 \n
-sysfs   /sys            sysfs   defaults        0       0 \n
-tmpfs   /dev/shm        tmpfs   defaults        0       0 \n
-tmpfs   /dev            tmpfs   defaults        0       0 \n
-tmpfs   /mnt            tmpfs   defaults        0       0 \n
-var     /dev            tmpfs   defaults        0       0 \n
-ramfs   /dev            ramfs   defaults        0       0 ' fstab
+echo 'proc    /proc           proc    defaults        0       0' >> fstab
+echo 'none    /dev/pts        devpts  mode=0622       0       0' >> fstab
+echo 'mdev    /dev            ramfs   defaults        0       0' >> fstab
+echo 'sysfs   /sys            sysfs   defaults        0       0' >> fstab
+echo 'tmpfs   /dev/shm        tmpfs   defaults        0       0' >> fstab
+echo 'tmpfs   /dev            tmpfs   defaults        0       0' >> fstab
+echo 'tmpfs   /mnt            tmpfs   defaults        0       0' >> fstab
+echo 'var     /dev            tmpfs   defaults        0       0' >> fstab
+echo 'ramfs   /dev            ramfs   defaults        0       0' >> fstab
 
 # 初始化脚本
 cd /home/nfs/etc
 touch inittab
-echo " " >> inittab
-sed -i '1a ::sysinit:/etc/init.d/rcS \n
-::askfirst:-/bin/sh \n
-::ctrlaltdel:/bin/umount -a -r' inittab
+echo '::sysinit:/etc/init.d/rcS' >> inittab
+echo '::askfirst:-/bin/sh' >> inittab
+echo '::ctrlaltdel:/bin/umount -a -r' >> inittab
 
 # 环境变量
 cd /home/nfs/etc
 touch profile
-echo " " >> profile
-sed -i '1a USER="root" \n
-LOGNAME=$USER \n
-export HOSTNAME="cat /etc/sysconfig/HOSTNAME" \n
-export USER=root \n
-export HOME=/root \n
-export PS1="[$USER@$HOSTNAME \\\W]\\\# " \n
-PATH=/bin:/sbin:/usr/bin:/usr/sbin \n
-LD_LIBRARY_PATH=/lib:/usr/lib:$LD_LIBRARY_PATH \n
-export PATH LD_LIBRARY_PATH' profile
+echo 'USER="root"' >> profile
+echo 'LOGNAME=$USER' >> profile
+echo 'export HOSTNAME=`cat /etc/sysconfig/HOSTNAME`' >> profile # 修正hostname解析问题
+echo 'export USER=root' >> profile
+echo 'export HOME=/root' >> profile
+echo 'export PS1="[$USER@$HOSTNAME \W]\# "' >> profile
+echo 'PATH=/bin:/sbin:/usr/bin:/usr/sbin' >> profile
+echo 'LD_LIBRARY_PATH=/lib:/usr/lib:$LD_LIBRARY_PATH' >> profile
+echo 'export PATH LD_LIBRARY_PATH' >> profile
 
 # 主机名
 cd /home/nfs/etc
 mkdir sysconfig
 cd sysconfig
-echo "vexpress" >>  HOSTNAME
+echo 'vexpress' >>  HOSTNAME
 
 # 其他dirs
 cd /home/nfs
@@ -260,7 +257,10 @@ sudo cp -r nfs/* temp/
 sudo umount temp
 sudo mv rootfs.ext3 qemux
 cd /home/qemux
-echo " " >> start.sh
+sudo rm start.sh
+touch start.sh
+chmod 777 start.sh
+echo ' ' >> start.sh
 sudo sed -i '1a qemu-system-arm \\\
         -M vexpress-a9 \\\
         -m 512M \\\
@@ -270,4 +270,4 @@ sudo sed -i '1a qemu-system-arm \\\
         -append "root=/dev/mmcblk0 rw console=ttyAMA0" \\\
         -sd rootfs.ext3' start.sh
 
-echo "=========== new lab environment is built ============>"	
+echo '=========== new lab environment is built ============>'	

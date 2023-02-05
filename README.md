@@ -28,6 +28,8 @@ chmod 777 qemux_inital.sh
 <br>
 
 ```
+before running the script, i think u should " make your terminal window BIGGER ", or u might fail in menuconfig
+
 the script default to install qemu v4.2 (i am not sure,it does at least in my ubuntu20.04)
 
 u can choose qemu7.2.0 or any version u want by change the script
