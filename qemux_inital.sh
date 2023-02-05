@@ -29,8 +29,7 @@ case $input in
                 esac
                 ;;
         [nN]* | *)
-                echo "未选择更新到清华源"
-                sleep 1
+                echo "未选择更新到清华源 !"
                 ;;        
 esac
 
@@ -41,7 +40,17 @@ sudo apt upgrade
 echo "=========== COMPILE ENVIRONMENT INITALIZING ============>"
 
 # c/c++ 环境
-sudo apt install build-essential cmake gdb lldb clang clangd clang-tidy gcc-arm-none-eabi gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi bear
+sudo apt install build-essential
+sudo apt install cmake
+sudo apt install gdb
+sudo apt install lldb
+sudo apt install clang
+sudo apt install clangd # 18.04源中没有
+sudo apt install clang-tidy
+sudo apt install gcc-arm-none-eabi
+sudo apt install gcc-arm-linux-gnueabihf
+sudo apt install gcc-arm-linux-gnueabi
+sudo apt install bear
 
 #python环境
 read -p "python : 是否更新到3.11版 [y/n]" input
@@ -61,7 +70,7 @@ sudo apt install flex bison libncurses-dev libelf-dev libssl-dev u-boot-tools bc
 sudo apt-cache search pixman
 sudo apt install libpixman-1-dev
 
-read -p  "qemu : 选择默认版本v4.2 或 慢慢编译v7.2 [y/n]" input
+read -p  "qemu : 选择默认版本v4.2 [y] || 慢慢编译v7.2 [n]" input
 case $input in
         [yY]* | "")
                 # 选择软件源中的qemu - v4
@@ -96,7 +105,7 @@ wget https://mirrors.tuna.tsinghua.edu.cn/kernel/v5.x/linux-5.10.99.tar.xz
 tar -xvf linux-5.10.99.tar.xz
 cd linux-5.10.99
 sed -i '370d' Makefile
-sed -i '370a ARCH ?= arm \n CROSS_COMPILE = arm-linux-gnueabi-' Makefile
+sed -i '370a ARCH ?= arm\n CROSS_COMPILE = arm-linux-gnueabi-' Makefile # 注意修改arch时不要有空格
 
 make vexpress_defconfig
 
