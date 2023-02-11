@@ -51,6 +51,7 @@ sudo apt install gcc-arm-none-eabi
 sudo apt install gcc-arm-linux-gnueabihf
 sudo apt install gcc-arm-linux-gnueabi
 sudo apt install bear
+sudo apt install texinfo
 
 #python环境
 read -p "python : 是否更新到3.11版 [y/n]" input
@@ -65,6 +66,7 @@ case $input in
 esac
 
 # QEMU 环境
+sudo apt install libsdl1.2-dev libsdl2-dev # qemu配置需要
 sudo apt install flex bison libncurses-dev libelf-dev libssl-dev u-boot-tools bc xz-utils fakeroot pkg-config ninja-build
 
 sudo apt-cache search pixman
