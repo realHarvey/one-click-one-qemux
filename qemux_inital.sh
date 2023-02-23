@@ -88,9 +88,7 @@ case $input in
                 sudo make install
                 ;;
         *)
-                echo '不下载你玩个毛'
-                cd ~
-                rm -rf one-click-one-qemux
+                echo '选择不进行后续配置'
                 exit  
                 ;;      
 esac
