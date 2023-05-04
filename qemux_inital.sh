@@ -39,26 +39,32 @@ sudo apt upgrade
 
 echo '=========== COMPILE ENVIRONMENT INITALIZING ============>'
 
-# c/c++ 环境
-sudo apt install build-essential
-sudo apt install cmake
-sudo apt install gdb
-sudo apt install lldb
-sudo apt install clang
-sudo apt install clangd # 18.04源中没有
-sudo apt install clang-tidy
-sudo apt install gcc-arm-none-eabi
-sudo apt install gcc-arm-linux-gnueabihf
-sudo apt install gcc-arm-linux-gnueabi
-sudo apt install bear
-sudo apt install texinfo
+# build 环境
+echo yes | sudo apt install build-essential
+echo yes | sudo apt install cmake
+echo yes | sudo apt install gdb
+echo yes | sudo apt install lldb
+echo yes | sudo apt install clang
+echo yes | sudo apt install clangd
+echo yes | sudo apt install clang-tidy
+echo yes | sudo apt install gcc-arm-none-eabi
+echo yes | sudo apt install gcc-arm-linux-gnueabihf
+echo yes | sudo apt install gcc-arm-linux-gnueabi
+echo yes | sudo apt install gcc-aarch64-linux-gnu
+echo yes | sudo apt install gdb-multiarch
+echo yes | sudo apt install bear
+echo yes | sudo apt install texinfo
+echo yes | sudo apt install lzop
+echo yes | sudo apt install net-tools
+echo yes | sudo apt install xinetd
+echo yes | sudo apt install tftp tftp-hpa tftpd-hpa
 
 #python环境
 read -p "python : 是否更新到3.11版 [y/n]" input
 case $input in
         [yY]* | "")
                 sudo add-apt-repository ppa:deadsnakes/ppa
-                sudo apt install python3.11
+                echo yes | sudo apt install python3.11
                 ;;
         [nN]* | *)
                 echo '未选择更新到3.11'
@@ -66,17 +72,20 @@ case $input in
 esac
 
 # QEMU 环境
-sudo apt install libsdl1.2-dev libsdl2-dev # qemu配置需要
-sudo apt install flex bison libncurses-dev libelf-dev libssl-dev u-boot-tools bc xz-utils fakeroot pkg-config ninja-build
+echo yes | sudo apt install libsdl1.2-dev libsdl2-dev # qemu配置需要
+echo yes | sudo apt install flex bison libncurses-dev libelf-dev libssl-dev u-boot-tools bc xz-utils
+echo yes | sudo apt install fakeroot 
+echo yes | sudo apt install pkg-config
+echo yes | sudo apt install ninja-build
 
 sudo apt-cache search pixman
-sudo apt install libpixman-1-dev
+echo yes | sudo apt install libpixman-1-dev
 
 read -p  "qemu : 选择默认版本v4.2 [y] || 慢慢编译v7.2 [n]" input
 case $input in
         [yY]* | "")
                 # 选择软件源中的qemu - v4
-                sudo apt install qemu-system
+                echo yes | sudo apt install qemu-system
                 ;;
         [nN]*)
                 # 自由选择qemu版本
