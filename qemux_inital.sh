@@ -58,6 +58,7 @@ echo yes | sudo apt install lzop
 echo yes | sudo apt install net-tools
 echo yes | sudo apt install xinetd
 echo yes | sudo apt install tftp tftp-hpa tftpd-hpa
+echo yes | sudo apt install dwarves
 
 #python环境
 read -p "python : 是否更新到3.11版 [y/n]" input
